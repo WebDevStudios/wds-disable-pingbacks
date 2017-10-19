@@ -1,0 +1,25 @@
+<!-- 
+Use this file to test that pingbacks are turned off. 
+@see http://blog.mlindgren.ca/entry/2015/01/17/how-to-manually-send-a-pingback/
+Replace source/url/here with a URL that would be trying to ping.
+Replace example.com/url/here with a URL on your WP site with this plugin enabled.
+Replace example.com in the command as well.
+Run this command from terminal:
+curl -X POST -d @pingback.xml http://example.com/xmlrpc.php
+-->
+<?xml version="1.0" encoding="iso-8859-1"?>
+<methodCall>
+<methodName>pingback.ping</methodName>
+<params>
+ <param>
+  <value>
+   <string>http://source/url/here</string>
+  </value>
+ </param>
+ <param>
+  <value>
+   <string>http://example.com/url/here</string>
+  </value>
+ </param>
+</params>
+</methodCall>
