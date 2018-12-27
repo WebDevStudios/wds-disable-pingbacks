@@ -1,0 +1,10 @@
+{
+	"name": "webdevstudios/wds-disable-pingbacks",
+	"description": "Disable Pingbacks... all of them.",
+	"homepage": "https://github.com/WebDevStudios/wds-disable-pingbacks",
+	"license": "GPL-2.0+",
+	"support": {
+		"issues": "https://github.com/WebDevStudios/wds-disable-pingbacks/issues",
+		"source": "https://github.com/WebDevStudios/wds-disable-pingbacks"
+	}
+}
