@@ -6,5 +6,9 @@
 	"support": {
 		"issues": "https://github.com/WebDevStudios/wds-disable-pingbacks/issues",
 		"source": "https://github.com/WebDevStudios/wds-disable-pingbacks"
+	},
+	"type": "wordpress-plugin",
+	"require": {
+		"composer/installers": "~1.0"
 	}
 }
