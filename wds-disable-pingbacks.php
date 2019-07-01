@@ -16,7 +16,7 @@
 
 add_filter( 'xmlrpc_methods', 'wds_disable_pingbacks' );
 add_action( 'current_screen', 'wds_disable_pingbacks_options' );
-add_filter( 'wp_headers', 'wds_disable_pingbacks_modify_wp_headers', 110, 2 );
+add_filter( 'wp_headers', 'wds_disable_pingbacks_modify_wp_headers', 110, 1 );
 add_filter( 'bloginfo_url', 'wds_disable_pingbacks_pingback_url', 11, 2 );
 
 /**
@@ -38,18 +38,21 @@ function wds_disable_pingbacks( $methods ) {
  * @param WP_Screen $screen The current admin screen we're on.
  * @author Justin Foell
  * @since  1.0.0
+ *
+ * @return void
  */
 function wds_disable_pingbacks_options( $screen ) {
-	if ( 'options-discussion' === $screen->id ) {
-		wp_register_script( 'wds-disable-pingbacks', plugins_url( 'wds-disable-pingbacks.js', __FILE__ ), 'jquery' ); // @codingStandardsIgnoreLine: Leave in header.
-
-		$translations = [
-			'disabled_message' => __( '(This has been globally disabled by the WDS Disable Pingbacks plugin.)', 'wds-disable-pingbacks' ),
-		];
-
-		wp_localize_script( 'wds-disable-pingbacks', 'wds_disable_pingbacks', $translations );
-		wp_enqueue_script( 'wds-disable-pingbacks' );
+	if ( 'options-discussion' !== $screen->id ) {
+		return;
 	}
+
+	wp_register_script( 'wds-disable-pingbacks', plugins_url( 'wds-disable-pingbacks.js', __FILE__ ), 'jquery' ); // @codingStandardsIgnoreLine: Leave in header.
+
+	wp_localize_script( 'wds-disable-pingbacks', 'wds_disable_pingbacks', [
+		'disabled_message' => __( '(This has been globally disabled by the WDS Disable Pingbacks plugin.)', 'wds-disable-pingbacks' ),
+	] );
+
+	wp_enqueue_script( 'wds-disable-pingbacks' );
 }
 
 /**
@@ -59,11 +62,10 @@ function wds_disable_pingbacks_options( $screen ) {
  * @since  1.1.0
  *
  * @param array $headers The headers.
- * @param mixed $wp_query Unused.
  *
  * @return array Modified headers.
  */
-function wds_disable_pingbacks_modify_wp_headers( $headers, $wp_query ) {
+function wds_disable_pingbacks_modify_wp_headers( $headers ) {
 	if ( isset( $headers['X-Pingback'] ) ) {
 		unset( $headers['X-Pingback'] );
 	}
@@ -78,7 +80,7 @@ function wds_disable_pingbacks_modify_wp_headers( $headers, $wp_query ) {
  * @since  1.1.0
  *
  * @param mixed  $output   The output of the URL (usually a string).
- * @param string $property Unused.
+ * @param string $property The property.
  *
  * @return mixed The output, null when disabled.
  */
